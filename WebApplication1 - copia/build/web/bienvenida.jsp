@@ -79,6 +79,7 @@
                 } else {
                     alumnos = misAlumnos.consultarAlumnosActivos();
                 }
+                System.out.println("cantidad: "+alumnos.length);
                 String colorCelda="";
                 int i=0;
                 for (String[] alumno: alumnos) {
@@ -99,19 +100,19 @@
                             <a onClick=" confirm('Seguro que desea eliminar este registro?') ? window.location.href='SrvProcesosAlumnos?btnAlumnos=eliminar&matricula=<%= alumno[5] %>&correo=<%= alumno[2] %>' : alert('Error al eliminar') " title="eliminarAlumno" target="_self">
                                 <img src="./imagenes/eliminar.png" alt="" width="90" height="60"/>              </a>          </td>
                         <td>
-                            <a href="modificaralumno.jsp?matricula=<%=alumno[5]%>&correo=<%=alumno[2]%>&fnacimiento=<%=alumno[6]%>&carrera=<%= alumno[7] %>" title="modificarAlumno" target="_self">
+                            <a href="modificaralumno.jsp?matricula=<%=alumno[5]%>&correo=<%=alumno[2]%>&fnacimiento=<%=alumno[6]%>&carrera=<%= alumno[7] %>&nombre=<%= alumno[3] %>&password=<%= alumno[4] %>" title="modificarAlumno" target="_self">
                                 <img src="./imagenes/modificar.png" alt="" width="90" height="60"/>              
                             </a>          
                         </td>
                         <td>
                             <% if( alumno[4].equals("") ){ %>
-                            <a href="registrarusuario.jsp?correo=<%=alumno[2]%>" title="registrarUsuario" target="_self">
-                                <img src="./imagenes/reintegrar.png" alt="" width="90" height="60"/> HACER USUARIO
-                            </a>   
+                                <a href="registrarusuario.jsp?correo=<%=alumno[2]%>" title="registrarUsuario" target="_self">
+                                    <img src="./imagenes/reintegrar.png" alt="" width="90" height="60"/> HACER USUARIO
+                                </a>   
                             <% }else{ %>
-                            <a href="" onClick="confirm('Seguro que desea eliminar este usuario?') ? window.location.href='SrvProcesosUsuarios?btnUsuarios=eliminar&correo=<%= alumno[2] %>' : alert('Error al eliminar usuario')" title=eliminarUsuario" target="_self">
-                                QUITAR USUARIO
-                            </a>
+                                <a href="" onClick="confirm('Seguro que desea eliminar este usuario?') ? window.location.href='SrvProcesosUsuarios?btnUsuarios=eliminar&correo=<%= alumno[2] %>' : alert('Error al eliminar usuario')" title=eliminarUsuario" target="_self">
+                                    QUITAR USUARIO
+                                </a>
                             <% } %>
                         </td>
 

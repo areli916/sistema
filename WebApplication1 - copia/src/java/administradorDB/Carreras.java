@@ -28,7 +28,7 @@ public class Carreras  extends AdministradorBD
                 desconectar();//CERRAMOS LA CONEXION DE LA BD
             }
         } catch (Exception e) {
-            System.out.println("error al verificar la existencia de una carrera: " + e);
+            System.out.println("existeCarrera(param) => error al verificar la existencia de una carrera: " + e);
         }
         return existe;
     }
@@ -37,7 +37,7 @@ public class Carreras  extends AdministradorBD
     // CONTEO DE EXISTENCIAS //////////////////////////////
     public int contarCarrerasActivas(){ //MÉTODO con matriz para hacer las consultas
         int cantidadCarreras = 0;//arreglo de matriz 
-        sql = "SELECT count(clave) FROM carreras WHERE estadoc='Activo'";
+        sql = "SELECT count(clave) FROM carreras WHERE estadoc='Activa'";
         try {
             if(conectar()){
                 stmt = getConn().createStatement(); //administrador de transaccion
@@ -52,14 +52,14 @@ public class Carreras  extends AdministradorBD
                 desconectar();//CERRAMOS LA CONEXION DE LA BD
             }
         } catch (Exception e) {
-            System.out.println("error al contar carreras " + e);
+            System.out.println("contarCarrerasActivas() => error al contar carreras " + e);
         }
         return cantidadCarreras;
     }  
     
     public int contarCarrerasInactivas(){ //MÉTODO con matriz para hacer las consultas
         int cantidadCarreras = 0;//arreglo de matriz 
-        sql = "SELECT count(clave) FROM carreras WHERE estadoc='Inactivo'";
+        sql = "SELECT count(clave) FROM carreras WHERE estadoc='Inactiva'";
         try {
             if(conectar()){
                 stmt = getConn().createStatement(); //administrador de transaccion
@@ -74,17 +74,18 @@ public class Carreras  extends AdministradorBD
                 desconectar();//CERRAMOS LA CONEXION DE LA BD
             }
         } catch (Exception e) {
-            System.out.println("error al contar carreras " + e);
+            System.out.println("contarCarrerasInactivas() => error al contar carreras " + e);
         }
         return cantidadCarreras;
     }  
     
     public int contarCarrerasActivas(String carreraBuscada){ //MÉTODO para contar alumnos POLIMÓRFICO, porque le mandamos un parámetro 
         int cantidadCarreras = 0;//
-        String sql= "SELECT count(clave) FROM carreras WHERE estadoc='Activo' AND "
+        String sql= "SELECT count(clave) FROM carreras WHERE estadoc='Activa' AND "
                 + "clave LIKE '%"+carreraBuscada+"%' OR "
                 + "nombrecarrera LIKE '%"+carreraBuscada+"%'"; //Consultamos que campos hay en los que estamos buscando
 
+        System.out.println(sql);
         try {
             if(conectar()){
                 stmt = getConn().createStatement(); //administrador de transaccion
@@ -99,14 +100,14 @@ public class Carreras  extends AdministradorBD
                 desconectar();//CERRAMOS LA CONEXION DE LA BD
             }
         } catch (Exception e) {
-            System.out.println("error al contar carreras buscadas: " + e);
+            System.out.println("contarCarrerasActivas(param) => error al contar carreras buscadas: " + e);
         }
         return cantidadCarreras;
     }
     
     public int contarCarrerasInactivas(String carreraBuscada){ //MÉTODO para contar alumnos POLIMÓRFICO, porque le mandamos un parámetro 
         int cantidadCarreras = 0;//
-        String sql= "SELECT count(clave) FROM carreras WHERE estadoc='Inactivo' AND "
+        String sql= "SELECT count(clave) FROM carreras WHERE estadoc='Inactiva' AND "
                 + "clave LIKE '%"+carreraBuscada+"%' OR "
                 + "nombrecarrera LIKE '%"+carreraBuscada+"%'"; //Consultamos que campos hay en los que estamos buscando
 
@@ -124,7 +125,7 @@ public class Carreras  extends AdministradorBD
                 desconectar();//CERRAMOS LA CONEXION DE LA BD
             }
         } catch (Exception e) {
-            System.out.println("error al contar carreras buscadas: " + e);
+            System.out.println("contarCarrerasInactivas(param) => error al contar carreras buscadas: " + e);
         }
         return cantidadCarreras;
     }
@@ -135,7 +136,7 @@ public class Carreras  extends AdministradorBD
     // CONSULTAS //////////////////////////////
     public String[][] consultarCarrerasActivas(){ //MÉTODO con matriz para hacer las consultas
         String[][] carreras = new String[contarCarrerasActivas()][NUM_COLS];//arreglo de matriz
-        sql = "SELECT * FROM carreras WHERE estadoc='Activo'"; //buscamos por cada campo 
+        sql = "SELECT * FROM carreras WHERE estadoc='Activa'"; //buscamos por cada campo 
         try {
             if(conectar()){
                 stmt = getConn().createStatement(); //administrador de transaccion
@@ -154,16 +155,15 @@ public class Carreras  extends AdministradorBD
                 desconectar();//CERRAMOS LA CONEXION DE LA BD
             }
         } catch (SQLException e) {
-            System.out.println("error al consultar carreras " + e);
+            System.out.println("consultarCarrerasActivas() => error al consultar carreras " + e);
         }
-        
         
         return carreras;
     }  
     
     public String[][] consultarCarrerasActivas(String carreraBuscada){ //MÉTODO con matriz para hacer las consultas
         String[][] carreras = new String[contarCarrerasActivas(carreraBuscada)][NUM_COLS];//arreglo de matriz
-        String sql= "SELECT * FROM carreras WHERE estadoc='Activo' AND "
+        String sql= "SELECT * FROM carreras WHERE estadoc='Activa' AND "
                 + "clave LIKE '%"+carreraBuscada+"%' or "
                 + "nombrecarrera LIKE '%"+carreraBuscada+"%'";
         try {
@@ -185,14 +185,14 @@ public class Carreras  extends AdministradorBD
                 desconectar();//CERRAMOS LA CONEXION DE LA BD
             }
         } catch (Exception e) {
-            System.out.println("error al consultar carreras " + e);
+            System.out.println("consultarCarrerasActivas(param) => error al consultar carreras " + e);
         }
         return carreras;
     }  
     
     public String[][] consultarCarrerasInactivas(){ //MÉTODO con matriz para hacer las consultas
         String[][] carreras = new String[contarCarrerasInactivas()][NUM_COLS];//arreglo de matriz
-        sql = "SELECT * FROM carreras WHERE estadoc='Inactivo'"; //buscamos por cada campo 
+        sql = "SELECT * FROM carreras WHERE estadoc='Inactiva'"; //buscamos por cada campo 
         try {
             if(conectar()){
                 stmt = getConn().createStatement(); //administrador de transaccion
@@ -211,7 +211,7 @@ public class Carreras  extends AdministradorBD
                 desconectar();//CERRAMOS LA CONEXION DE LA BD
             }
         } catch (SQLException e) {
-            System.out.println("error al consultar carreras " + e);
+            System.out.println("consultarCarrerasInactivas() => error al consultar carreras " + e);
         }
         
         
@@ -220,7 +220,7 @@ public class Carreras  extends AdministradorBD
     
     public String[][] consultarCarrerasInactivas(String carreraBuscada){ //MÉTODO con matriz para hacer las consultas
         String[][] carreras = new String[contarCarrerasInactivas(carreraBuscada)][NUM_COLS];//arreglo de matriz
-        String sql= "SELECT * FROM carreras WHERE estadoc='Inactivo' AND "
+        String sql= "SELECT * FROM carreras WHERE estadoc='Inactiva' AND "
                 + "clave LIKE '%"+carreraBuscada+"%' or "
                 + "nombrecarrera LIKE '%"+carreraBuscada+"%'";
         try {
@@ -242,7 +242,7 @@ public class Carreras  extends AdministradorBD
                 desconectar();//CERRAMOS LA CONEXION DE LA BD
             }
         } catch (Exception e) {
-            System.out.println("error al consultar carreras " + e);
+            System.out.println("consultarCarrerasInactivas(param) => error al consultar carreras " + e);
         }
         return carreras;
     }  
@@ -262,7 +262,7 @@ public class Carreras  extends AdministradorBD
                 insertado=true;//ASEGURAMOS QUE LA INSERCCION SE REALIZÓ
             }
         } catch (Exception e) {
-            System.out.println("error al insertar carrera " + e);
+            System.out.println("insertarCarrera(params) => error al insertar carrera " + e);
         }
         return insertado;
    }  
@@ -283,7 +283,7 @@ public class Carreras  extends AdministradorBD
             }
 
         } catch (Exception e) {
-            System.out.println("error al eliminar carrera " + e);
+            System.out.println("eliminarCarrera(param) => error al eliminar carrera " + e);
         }
         return eliminado;
     }   
@@ -302,7 +302,7 @@ public class Carreras  extends AdministradorBD
                 }
             }
         } catch (Exception e) {
-            System.out.println("error al eliminar carrera " + e);
+            System.out.println("darDeBajaCarrera(param) => error al eliminar carrera " + e);
         }
         return eliminado;
     }
@@ -319,7 +319,7 @@ public class Carreras  extends AdministradorBD
                 actualizado=true;//ASEGURAMOS QUE LA INSERCCION SE REALIZÓ
             }
         } catch (Exception e) {
-            System.out.println("error al eliminar carrera " + e);
+            System.out.println("actualizarCarrerasEnAlumnos(param) => error al eliminar carrera " + e);
         }
         return actualizado;
     }
@@ -339,7 +339,7 @@ public class Carreras  extends AdministradorBD
             }
 
         } catch (Exception e) {
-            System.out.println("error al modificar0 carrera " + e);
+            System.out.println("modificarCarrera(params) => error al modificar0 carrera " + e);
         }
         return modificado;
     }
@@ -358,7 +358,7 @@ public class Carreras  extends AdministradorBD
             }
 
         } catch (Exception e) {
-            System.out.println("error al reintegrar carrera " + e);
+            System.out.println("reintegrarCarrera(param) => error al reintegrar carrera " + e);
         }
         return reintegrado;
     }      

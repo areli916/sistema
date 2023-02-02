@@ -27,7 +27,7 @@ public class Alumnos extends AdministradorBD{
                 desconectar();//CERRAMOS LA CONEXION DE LA BD
             }
         } catch (Exception e) {
-            System.out.println("error al verificar la existencia de un alumno: " + e);
+            System.out.println("existeAlumno(param) => error al verificar la existencia de un alumno: " + e);
         }
         return existe;
     }
@@ -36,7 +36,7 @@ public class Alumnos extends AdministradorBD{
     // CONTEO DE EXISTENCIAS //////////////////////////////
     public int contarAlumnosActivos(){ //MÉTODO para contar alumnos
         int cantidadAlumnos = 0;//
-        sql = "SELECT count(matricula) FROM vistaAlumnos WHERE estado = 'Activo'";//Consultamos todos los datos del alumno
+        sql = "SELECT count(*) FROM vistaAlumnos WHERE estado = 'Activo'";//Consultamos todos los datos del alumno
         try {
             if(conectar()){
                 stmt = getConn().createStatement(); //administrador de transaccion
@@ -51,14 +51,14 @@ public class Alumnos extends AdministradorBD{
                 desconectar();//CERRAMOS LA CONEXION DE LA BD
             }
         } catch (Exception e) {
-            System.out.println("error al contar alumnos: " + e);
+            System.out.println("contarAlumnosActivos() => error al contar alumnos: " + e);
         }
         return cantidadAlumnos;
     }
     
     public int contarAlumnosInactivos(){ //MÉTODO para contar alumnos
         int cantidadAlumnos = 0;//
-        sql = "SELECT count(matricula) FROM vistaAlumnos WHERE estado = 'Inactivo'";//Consultamos todos los datos del alumno
+        sql = "SELECT count(*) FROM vistaAlumnos WHERE estado = 'Inactivo'";//Consultamos todos los datos del alumno
         try {
             if(conectar()){
                 stmt = getConn().createStatement(); //administrador de transaccion
@@ -73,7 +73,7 @@ public class Alumnos extends AdministradorBD{
                 desconectar();//CERRAMOS LA CONEXION DE LA BD
             }
         } catch (Exception e) {
-            System.out.println("error al contar alumnos: " + e);
+            System.out.println("contarAlumnosInactivos() => error al contar alumnos: " + e);
         }
         return cantidadAlumnos;
     }
@@ -81,7 +81,7 @@ public class Alumnos extends AdministradorBD{
     public int contarAlumnosActivos(String alumnoBuscado){ //MÉTODO para contar alumnos POLIMÓRFICO, porque le mandamos un parámetro
         int cantidadAlumnos = 0;
         //Consultamos que campos hay en los que estamos buscando
-        sql = "SELECT count(matricula) FROM vistaAlumnos WHERE "
+        sql = "SELECT count(*) FROM vistaAlumnos WHERE "
                 + "matricula LIKE '%"+alumnoBuscado+"%' or  " 
                 + "correo LIKE '%"+alumnoBuscado+"%' or "
                 + "f_nacimiento LIKE '%"+alumnoBuscado+"%' or "
@@ -96,7 +96,7 @@ public class Alumnos extends AdministradorBD{
                 res = stmt.executeQuery(sql); //solo es para los select el EXECUTEQUERY 
                 //SE GUARDAN LOS DATOS DE LA CONSULTA AQUI EN EL RESULSET
                 while(res.next()){ //vamos de posicion a posicion
-                    cantidadAlumnos+=1;
+                    cantidadAlumnos=res.getInt(1);
                 }
 
                 res.close();//cerramos la conexion de res
@@ -104,7 +104,7 @@ public class Alumnos extends AdministradorBD{
                 desconectar();//CERRAMOS LA CONEXION DE LA BD
             }
         } catch (Exception e) {
-            System.out.println("error al contar alumnos buscados: " + e);
+            System.out.println("contarAlumnosActivos(param) => error al contar alumnos buscados: " + e);
         }
         return cantidadAlumnos;
     }
@@ -112,7 +112,7 @@ public class Alumnos extends AdministradorBD{
     public int contarAlumnosInactivos(String alumnoBuscado){ //MÉTODO para contar alumnos POLIMÓRFICO, porque le mandamos un parámetro
         int cantidadAlumnos = 0;
         //Consultamos que campos hay en los que estamos buscando
-        sql = "SELECT count(matricula) FROM vistaAlumnos WHERE "
+        sql = "SELECT count(*) FROM vistaAlumnos WHERE "
                 + "matricula LIKE '%"+alumnoBuscado+"%' or  " 
                 + "correo LIKE '%"+alumnoBuscado+"%' or "
                 + "f_nacimiento LIKE '%"+alumnoBuscado+"%' or "
@@ -127,7 +127,7 @@ public class Alumnos extends AdministradorBD{
                 res = stmt.executeQuery(sql); //solo es para los select el EXECUTEQUERY 
                 //SE GUARDAN LOS DATOS DE LA CONSULTA AQUI EN EL RESULSET
                 while(res.next()){ //vamos de posicion a posicion
-                    cantidadAlumnos+=1;
+                    cantidadAlumnos=res.getInt(1);
                 }
 
                 res.close();//cerramos la conexion de res
@@ -135,7 +135,7 @@ public class Alumnos extends AdministradorBD{
                 desconectar();//CERRAMOS LA CONEXION DE LA BD
             }
         } catch (Exception e) {
-            System.out.println("error al contar alumnos buscados: " + e);
+            System.out.println("contarAlumnosInactivos(param) => error al contar alumnos buscados: " + e);
         }
         return cantidadAlumnos;
     }
@@ -165,7 +165,7 @@ public class Alumnos extends AdministradorBD{
                 desconectar();//CERRAMOS LA CONEXION DE LA BD
             }
         } catch (Exception e) {
-            System.out.println("error al consultar alumnos: " + e);
+            System.out.println("consultarAlumnosActivos() => error al consultar alumnos: " + e);
         }
         return datosAlumnos;
     }
@@ -191,7 +191,7 @@ public class Alumnos extends AdministradorBD{
                 desconectar();//CERRAMOS LA CONEXION DE LA BD
             }
         } catch (Exception e) {
-            System.out.println("error al consultar alumnos: " + e);
+            System.out.println("consultarAlumnosInactivos() => error al consultar alumnos: " + e);
         }
         return datosAlumnos;
     }
@@ -224,7 +224,7 @@ public class Alumnos extends AdministradorBD{
                 desconectar();//CERRAMOS LA CONEXION DE LA BD
             }
         } catch (Exception e) {
-            System.out.println("error al buscar alumnos: " + e);
+            System.out.println("consultarAlumnosActivos(param) => error al buscar alumnos: " + e);
         }
         return datosAlumnos;
     }  
@@ -257,7 +257,7 @@ public class Alumnos extends AdministradorBD{
                 desconectar();//CERRAMOS LA CONEXION DE LA BD
             }
         } catch (Exception e) {
-            System.out.println("error al buscar alumnos: " + e);
+            System.out.println("consultarAlumnosInactivos(param) => error al buscar alumnos: " + e);
         }
         return datosAlumnos;
     } 
@@ -277,7 +277,7 @@ public class Alumnos extends AdministradorBD{
                 insertado=true;//ASEGURAMOS QUE LA INSERCCION SE REALIZÓ
             }
         } catch (Exception e) {
-            System.out.println("error al insertar alumno " + e);
+            System.out.println("insertarAlumno(params) => error al insertar alumno " + e);
         }
         return insertado;
     }      
@@ -297,15 +297,21 @@ public class Alumnos extends AdministradorBD{
             }
 
         } catch (Exception e) {
-            System.out.println("error al eliminar alumno " + e);
+            System.out.println("eliminarAlumno(param) => error al eliminar alumno " + e);
         }
         return eliminado;
     }      
 
     // MODIFICACIÓN
-    public boolean modificarAlumno(String matricula,String correo,String fnacimiento,String carrera){
+    public boolean modificarAlumno(String matricula,String correo, String correoAnterior, String fnacimiento,String carrera){
         boolean modificado=false;
-        sql="UPDATE alumnos SET correo= '"+correo+"',f_nacimiento='"+fnacimiento+"',nombrecarrera='"+carrera+"'";
+        if(correo.equals(correoAnterior)){
+            sql="UPDATE alumnos SET f_nacimiento='"+fnacimiento+"', carrera='"+carrera+"' WHERE matricula='"+matricula+"'";
+        }
+        else{
+            sql="UPDATE alumnos SET f_nacimiento='"+fnacimiento+"', carrera='"+carrera+"', correo='"+correo+"' WHERE matricula='"+matricula+"'";
+        }
+        System.out.println("Modif alumno: "+sql);
         try {
             if(conectar()){
                 stmt = getConn().createStatement(); //administrador de transaccion
@@ -317,7 +323,7 @@ public class Alumnos extends AdministradorBD{
             }
 
         } catch (Exception e) {
-            System.out.println("error al modificar alumno " + e);
+            System.out.println("modificarAlumno(params) => error al modificar alumno " + e);
         }
         return modificado;
 
@@ -337,7 +343,7 @@ public class Alumnos extends AdministradorBD{
             }
 
         } catch (Exception e) {
-            System.out.println("error al reintegrar alumno " + e);
+            System.out.println("reintegrarAlumno(param) => error al reintegrar alumno " + e);
         }
         return reintegrado;
     }      

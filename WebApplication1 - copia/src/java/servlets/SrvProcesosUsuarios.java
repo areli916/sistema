@@ -9,11 +9,11 @@ import administradorDB.Usuarios;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Map;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  *
@@ -74,7 +74,7 @@ public class SrvProcesosUsuarios extends HttpServlet {
             } else if (btnUsuarios.equals("modificar")) {
                 System.out.println("el correo"+""+correo );
                 if (misusuarios.modificarUsuario(correo,
-                       
+                        correo,
                         request.getParameter("nombre"),
                         request.getParameter("pw")
                        

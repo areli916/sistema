@@ -68,7 +68,7 @@
                 if(request.getParameter("busquedadeinactivasexitosa") != null){
                     carreras = misCarreras.consultarCarrerasInactivas( request.getParameter("busquedadeinactivasexitosa") );
                 } else {
-                    carreras = misCarreras.consultarCarrerasInactivas("Inactiva");
+                    carreras = misCarreras.consultarCarrerasInactivas();
                 }
                 String colorCelda = ""; 
                 int i=0;

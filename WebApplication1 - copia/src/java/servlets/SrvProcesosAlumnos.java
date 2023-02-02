@@ -1,19 +1,21 @@
 package servlets;
 import administradorDB.Alumnos;
+import administradorDB.Usuarios;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet(name = "SrvProcesosAlumnos", urlPatterns = {"/SrvProcesosAlumnos"})
 public class SrvProcesosAlumnos extends HttpServlet { 
     Alumnos misAlumnos = new Alumnos(); 
+    Usuarios misUsuarios= new Usuarios();
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -23,6 +25,8 @@ public class SrvProcesosAlumnos extends HttpServlet {
             String matricula= request.getParameter("matricula");
             String correo= request.getParameter("correo");
             String correoAnterior= request.getParameter("correoAnterior");
+            String nombre= request.getParameter("nombre");
+            String password= request.getParameter("password");
             
             System.out.println("MAPA DE ENTRADAS DE FORMULARIO (SrvProcesosAlumnos)");
             Map<String, String[]> m= request.getParameterMap();
@@ -55,13 +59,17 @@ public class SrvProcesosAlumnos extends HttpServlet {
                     response.sendRedirect("Inactivos.jsp?error=Error de comunicacion con la base de datos"); 
                 }
             } else if (btnAlumnos.equals("modificar")) {
-                if (misAlumnos.modificarAlumno(                        
+                //Pendiente, modificar correo por la dependencia de llave foranea
+                boolean modifAlumnos= misAlumnos.modificarAlumno(                        
                         matricula, 
-                        request.getParameter("correo"), 
-                        /*correoAnterior,*/
+                        correo, 
+                        correoAnterior,
                         request.getParameter("fnacimiento"), 
                         request.getParameter("carrera")
-                    )){
+                    );
+                boolean modifUsuarios= misUsuarios.modificarUsuario(correo, correoAnterior, nombre, password);
+                
+                if (modifAlumnos && modifUsuarios){
                     response.sendRedirect("bienvenida.jsp?mensaje=Se modifico correctamente"); 
                 } else {
                     response.sendRedirect("bienvenida.jsp?error=Error de comunicacion con la base de datos");  }

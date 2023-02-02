@@ -2,15 +2,16 @@
 package servlets;
 
 import administradorDB.Alumnos;
+import administradorDB.Usuarios;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  *
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "SrvValidaRegistroAlumno", urlPatterns = {"/SrvValidaRegistroAlumno"})
 public class SrvValidaRegistroAlumno extends HttpServlet {
     Alumnos misAlumnos = new Alumnos();
+    Usuarios misUsuarios = new Usuarios();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,6 +39,8 @@ public class SrvValidaRegistroAlumno extends HttpServlet {
             String correo = request.getParameter("correo");
             String fnacimiento = request.getParameter("fnacimiento");
             String carrera = request.getParameter("carrera");
+            String nombre = request.getParameter("nombre");
+            String password = request.getParameter("password");
             
             
             // patrn: abc
@@ -58,15 +62,16 @@ public class SrvValidaRegistroAlumno extends HttpServlet {
                     response.sendRedirect("registraralumno.jsp?error=Debes llenar todos los campos"
                             + "&matricula="+matricula+"&correo="+correo+"&fnacimiento="+fnacimiento+"&carrera="+carrera);
 
-                //verificamos la matricula si ya existe, manda un error    
+                //verificamos la matricula si ya existe, manda un error  (se entiende que si existe el alumno, existe el usuario, porque están relacionados) 
                 }else if(misAlumnos.existeAlumno(matricula)){
                     response.sendRedirect("registraralumno.jsp?error=La matricula que proporcionaste "
                             + "ya esta en el sistema"
                             + "&matricula="+matricula+"&correo="+correo+"&fnacimiento="+fnacimiento+"&carrera="+carrera);
-                }else if(!misAlumnos.insertarAlumno(matricula, correo, fnacimiento, carrera)){
+                // Si falla alguna inserción, se va a mandar el error
+                }else if(!misUsuarios.insertarUsuario(correo, nombre, password) || !misAlumnos.insertarAlumno(matricula, correo, fnacimiento, carrera)){
                     response.sendRedirect("registraralumno.jsp?error=Error a la inserccion, fallo en la "
                             + "comunicacion con la base de datos"
-                            + "&matricula="+matricula+"&correo="+correo+"&fnacimiento="+fnacimiento+"&carrera="+carrera);
+                            + "&matricula="+matricula+"&correo="+correo+"&fnacimiento="+fnacimiento+"&carrera="+carrera+"&nombre="+nombre+"&password="+password);
                 //}else if(!fnacimiento.equals(String.format("%.10s",fnacimiento))){ //== !=, fnacimiento.equals(String.format.....) SE
                     //Se rompia por operadores
                 }else{

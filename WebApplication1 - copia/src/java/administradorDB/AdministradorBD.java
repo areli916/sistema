@@ -5,8 +5,8 @@ import java.sql.DriverManager;
 
 public class AdministradorBD {
 //CONTROL + SHIFT + FLECHA ABAJO, DUPLICA LA LINEA Y LA HACE ABAJO 
-private String loginBD = "root";
-private String passBD = "";
+private String loginBD = "manbenit";
+private String passBD = "shuriken";
 private String urlBD = "jdbc:mysql://localhost:3306/ejemplo"; //url para conectar a la BD
 private Connection conn = null;
 

@@ -224,7 +224,7 @@ public class Alumnos extends AdministradorBD{
                 desconectar();//CERRAMOS LA CONEXION DE LA BD
             }
         } catch (Exception e) {
-            System.out.println("error al buscar alumnos: " + e);
+            System.out.println("error al consultar alumnos: " + e);
         }
         return datosAlumnos;
     }  
@@ -257,7 +257,7 @@ public class Alumnos extends AdministradorBD{
                 desconectar();//CERRAMOS LA CONEXION DE LA BD
             }
         } catch (Exception e) {
-            System.out.println("error al buscar alumnos: " + e);
+            System.out.println("error al consultar alumnos: " + e);
         }
         return datosAlumnos;
     } 

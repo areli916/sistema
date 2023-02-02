@@ -27,7 +27,7 @@ public class Usuarios extends AdministradorBD{
                 desconectar();//CERRAMOS LA CONEXION DE LA BD
             }
         } catch (Exception e) {
-            System.out.println("error al validar un usuario: " + e);
+            System.out.println("validarUsuario(params) => error al validar un usuario: " + e);
         }
             System.out.println(valido);
         return valido;
@@ -51,7 +51,7 @@ public class Usuarios extends AdministradorBD{
                 desconectar();//CERRAMOS LA CONEXION DE LA BD
             }
         } catch (Exception e) {
-            System.out.println("error al verificar la existencia de un usuario: " + e);
+            System.out.println("existeUsuario(param) => error al verificar la existencia de un usuario: " + e);
         }
         return existe;
     }
@@ -75,7 +75,7 @@ public class Usuarios extends AdministradorBD{
                 desconectar();//CERRAMOS LA CONEXION DE LA BD
             }
         } catch (Exception e) {
-            System.out.println("error al contar usuarios: " + e);
+            System.out.println("contarUsuariosActivos() => error al contar usuarios: " + e);
         }
         return cantidadAlumnos;
     }
@@ -97,7 +97,7 @@ public class Usuarios extends AdministradorBD{
                 desconectar();//CERRAMOS LA CONEXION DE LA BD
             }
         } catch (Exception e) {
-            System.out.println("error al contar usuarios: " + e);
+            System.out.println("contarUsuariosInactivos() => error al contar usuarios: " + e);
         }
         return cantidadAlumnos;
     }
@@ -125,7 +125,7 @@ public class Usuarios extends AdministradorBD{
                 desconectar();//CERRAMOS LA CONEXION DE LA BD
             }
         } catch (Exception e) {
-            System.out.println("error al contar usuarios buscados: " + e);
+            System.out.println("contarUsuariosActivos(param) => error al contar usuarios buscados: " + e);
         }
         return cantidadUsuarios;
     }
@@ -153,7 +153,7 @@ public class Usuarios extends AdministradorBD{
                 desconectar();//CERRAMOS LA CONEXION DE LA BD
             }
         } catch (Exception e) {
-            System.out.println("error al contar usuarios buscados: " + e);
+            System.out.println("contarUsuariosInactivos(param) => error al contar usuarios buscados: " + e);
         }
         return cantidadUsuarios;
     }
@@ -183,7 +183,7 @@ public class Usuarios extends AdministradorBD{
                 desconectar();//CERRAMOS LA CONEXION DE LA BD
             }
         } catch (Exception e) {
-            System.out.println("error al consultar usuarios: " + e);
+            System.out.println("consultarUsuariosActivos() => error al consultar usuarios: " + e);
         }
         return datosUsuarios;
     }
@@ -209,7 +209,7 @@ public class Usuarios extends AdministradorBD{
                 desconectar();//CERRAMOS LA CONEXION DE LA BD
             }
         } catch (Exception e) {
-            System.out.println("error al consultar usuarios: " + e);
+            System.out.println("consultarUsuariosInactivos() => error al consultar usuarios: " + e);
         }
         return datosUsuarios;
     }
@@ -239,7 +239,7 @@ public class Usuarios extends AdministradorBD{
                 desconectar();//CERRAMOS LA CONEXION DE LA BD
             }
         } catch (Exception e) {
-            System.out.println("error al buscar usuarios: " + e);
+            System.out.println("consultarUsuariosActivos(param) => error al buscar usuarios: " + e);
         }
         return datosUsuarios;
     }  
@@ -270,7 +270,7 @@ public class Usuarios extends AdministradorBD{
                 desconectar();//CERRAMOS LA CONEXION DE LA BD
             }
         } catch (Exception e) {
-            System.out.println("error al buscar usuarios: " + e);
+            System.out.println("consultarUsuariosInactivos(param) => error al buscar usuarios: " + e);
         }
         return datosUsuarios;
     } 
@@ -297,7 +297,7 @@ public class Usuarios extends AdministradorBD{
                 insertado=true;//ASEGURAMOS QUE LA INSERCCION SE REALIZÓ
             }
         } catch (Exception e) {
-            System.out.println("error al insertar alumno " + e);
+            System.out.println("insertarUsuario(params) => error al insertar alumno " + e);
         }
         return insertado;
     }       
@@ -305,6 +305,7 @@ public class Usuarios extends AdministradorBD{
     public boolean eliminarUsuario(String correo){ //MÉTODO con matriz para hacer las consultas
         boolean eliminado = false; 
         String sql = "UPDATE usuarios SET estadou = 'Inactivo' WHERE correo = '"+correo+"' ";
+        System.out.println(sql);
         try {
             if(conectar()){
                 stmt = getConn().createStatement(); //administrador de transaccion
@@ -316,15 +317,22 @@ public class Usuarios extends AdministradorBD{
             }
 
         } catch (Exception e) {
-            System.out.println("error al eliminar usuario " + e);
+            System.out.println("eliminarUsuario(param) => error al eliminar usuario " + e);
         }
         return eliminado;
    }      
     
-    public boolean modificarUsuario(String correo, String nombre,String pw){
+    public boolean modificarUsuario(String correo, String correoAnterior, String nombre,String pw){
         boolean modificado=false;
-        String sql = "UPDATE usuarios SET nombre= '"+nombre+"',pw='"+pw+"'WHERE correo='"+correo+"'";
-        System.out.println(sql);
+        String sql="";
+        if(correo.equals(correoAnterior)){
+            sql= "UPDATE usuarios SET nombre='"+nombre+"', pw='"+pw+"' WHERE correo='"+correoAnterior+"'";
+        }
+        else{
+            sql= "UPDATE usuarios SET nombre='"+nombre+"', pw='"+pw+"' correo='"+correo+"' WHERE correo='"+correoAnterior+"'";
+        }
+        
+        System.out.println("Modif usuario: "+sql);
         try {
             if(conectar()){
                 stmt = getConn().createStatement(); //administrador de transaccion
@@ -336,7 +344,7 @@ public class Usuarios extends AdministradorBD{
             }
 
         } catch (Exception e) {
-            System.out.println("error al modificar0 usuario " + e);
+            System.out.println("modificarUsuario(params) => error al modificar usuario " + e);
         }
         return modificado;  
     }
@@ -355,7 +363,7 @@ public class Usuarios extends AdministradorBD{
             }
 
         } catch (Exception e) {
-            System.out.println("error al reintegrar carrera " + e);
+            System.out.println("reintegrarUsuario(param) => error al reintegrar carrera " + e);
         }
         return reintegrado;
     }      
