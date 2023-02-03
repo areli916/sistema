@@ -4,9 +4,13 @@ package administradorDB;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 public class Carreras  extends AdministradorBD
 {
     private String sql = ""; //en vacio porque es una cadena de texto 
+    private ArrayList<Map<String, String[]>> carrerasDesactivadas= new ArrayList<>();
     private Statement stmt = null; 
     private ResultSet res = null; 
     private final int NUM_COLS=3;
@@ -129,6 +133,29 @@ public class Carreras  extends AdministradorBD
         }
         return cantidadCarreras;
     }
+    
+    public int contarCorreosPorCarrera(String clave){ //MÉTODO para contar alumnos POLIMÓRFICO, porque le mandamos un parámetro 
+        int cantidadCorreos = 0;
+        String sql= "SELECT count(correo) FROM alumnos WHERE carrera='"+clave+"'";
+
+        try {
+            if(conectar()){
+                stmt = getConn().createStatement(); //administrador de transaccion
+                res = stmt.executeQuery(sql); //solo es para los select el EXECUTEQUERY 
+                //SE GUARDAN LOS DATOS DE LA CONSULTA AQUI EN EL RESULSET
+                if(res.next()){ //vamos de posicion a posicion
+                    cantidadCorreos=res.getInt(1);
+                }
+
+                res.close();//cerramos la conexion de res
+                stmt.close();//cerramos el stament
+                desconectar();//CERRAMOS LA CONEXION DE LA BD
+            }
+        } catch (Exception e) {
+            System.out.println("contarCarrerasInactivas(param) => error al contar carreras buscadas: " + e);
+        }
+        return cantidadCorreos;
+    }
     ///////////////////////////////////////////////////////
     
     
@@ -246,6 +273,31 @@ public class Carreras  extends AdministradorBD
         }
         return carreras;
     }  
+    
+    private String[] obtenerCorreosPorCarrera(String clave){ //MÉTODO con matriz para hacer las consultas
+        String[] carreras = new String[contarCorreosPorCarrera(clave)];//arreglo de matriz
+        sql = "SELECT correo FROM alumnos WHERE carrera='"+clave+"'"; //buscamos por cada campo 
+        try {
+            if(conectar()){
+                stmt = getConn().createStatement(); //administrador de transaccion
+                //res = null;
+                res = stmt.executeQuery(sql); //solo es para los select el EXECUTEQUERY 
+                //SE GUARDAN LOS DATOS DE LA CONSULTA AQUI EN EL RESULSET
+                int fila=0;
+                while(res.next()){ //vamos de posicion a posicion
+                    carreras[fila] = res.getString(1);
+                    fila++;
+                }
+                res.close();//cerramos la conexion de res
+                stmt.close();//cerramos el stament
+                desconectar();//CERRAMOS LA CONEXION DE LA BD
+            }
+        } catch (SQLException e) {
+            System.out.println("consultarCarrerasInactivas() => error al consultar carreras " + e);
+        }
+        
+        return carreras;
+    }  
     ///////////////////////////////////////////////////////
 
  
@@ -277,7 +329,7 @@ public class Carreras  extends AdministradorBD
 
                 stmt.executeUpdate(sql);//execute UPDATE para actualizar la tabla             stmt.close();//cerramos el stament
                 desconectar();//CERRAMOS LA CONEXION DE LA BD
-                if( actualizarCarrerasEnAlumnos(clave) ){
+                if( actualizarCarrerasEnAlumnosDesactivar(clave) ){
                     eliminado=true;//ASEGURAMOS QUE LA INSERCCION SE REALIZÓ
                 }
             }
@@ -288,7 +340,7 @@ public class Carreras  extends AdministradorBD
         return eliminado;
     }   
     
-    public boolean darDeBajaCarrera(String clave){
+    /*public boolean darDeBajaCarrera(String clave){
         boolean eliminado = false; 
         String sql = "DELETE FROM carreras WHERE clave = '"+clave+"' ";
         
@@ -305,12 +357,20 @@ public class Carreras  extends AdministradorBD
             System.out.println("darDeBajaCarrera(param) => error al eliminar carrera " + e);
         }
         return eliminado;
-    }
+    }*/
     
-    private boolean actualizarCarrerasEnAlumnos(String clave){
+    private boolean actualizarCarrerasEnAlumnosDesactivar(String clave){
         boolean actualizado = false; 
-        // Actualizar el estado a espera en el lugar donde exita la carrera a eliminar
-        String sql= "UPDATE alumnos SET carrera=0 WHERE carrera='"+clave+"'";
+        // Actualizar el estado a espera en el lugar donde exista la carrera a eliminar
+        String sql="";
+        // Agregar a la lista los correos que anteriormente tenían esa carrera
+        Map<String, String[]> m= new HashMap<>();
+        m.put(clave, obtenerCorreosPorCarrera(clave));
+        carrerasDesactivadas.add(m);
+
+        //Definir el query de desactivación
+        sql= "UPDATE alumnos SET carrera='0' WHERE carrera='"+clave+"'";
+        
         try {
             if(conectar()){
                 stmt = getConn().createStatement(); //administrador de transaccion
@@ -319,11 +379,11 @@ public class Carreras  extends AdministradorBD
                 actualizado=true;//ASEGURAMOS QUE LA INSERCCION SE REALIZÓ
             }
         } catch (Exception e) {
-            System.out.println("actualizarCarrerasEnAlumnos(param) => error al eliminar carrera " + e);
+            System.out.println("actualizarCarrerasEnAlumnosDesactivar(param) => error al eliminar carrera " + e);
         }
         return actualizado;
     }
-    
+     
     public boolean modificarCarrera(String clave, String nombrecarrera){
         boolean modificado=false;
         String sql = "UPDATE carreras SET nombrecarrera= '"+nombrecarrera+"'WHERE clave='"+clave+"'";
@@ -355,11 +415,50 @@ public class Carreras  extends AdministradorBD
                 stmt.executeUpdate(sql);//execute UPDATE para actualizar la tabla             stmt.close();//cerramos el stament
                 desconectar();//CERRAMOS LA CONEXION DE LA BD
                 reintegrado=true;//ASEGURAMOS QUE LA INSERCCION SE REALIZÓ
+                actualizarCarrerasEnAlumnosActivar(clave);
             }
 
         } catch (Exception e) {
             System.out.println("reintegrarCarrera(param) => error al reintegrar carrera " + e);
         }
         return reintegrado;
-    }      
+    }     
+    
+    private boolean actualizarCarrerasEnAlumnosActivar(String clave){
+        boolean actualizado = false; 
+        
+        //Obtener los alumnos que anteriormente tenían esa carrera (su correo)
+        String[] correosConEsaCarrera=null;
+        int indiceDeMapa=0;
+        for(int i=0; i<carrerasDesactivadas.size(); i++){
+            for(Map.Entry<String,String[]> correos: carrerasDesactivadas.get(i).entrySet()){
+                if(correos.getKey().equals(clave)){
+                    indiceDeMapa=i;
+                    correosConEsaCarrera= correos.getValue();
+                    break;
+                }
+            }
+        }
+
+        try {
+            if(conectar()){
+                String sql="";
+                for(String c: correosConEsaCarrera){
+                    // Definir el query de reactivación 
+                    sql= "UPDATE alumnos SET carrera='"+clave+"' WHERE carrera='0' AND correo='"+c+"'";
+                    
+                    stmt = getConn().createStatement(); //administrador de transaccion
+                    stmt.executeUpdate(sql);//execute UPDATE para actualizar la tabla  
+                }
+                desconectar();//CERRAMOS LA CONEXION DE LA BD
+                actualizado=true;
+                // Eliminar la carrera reactivada de la lista de desactivadas
+                carrerasDesactivadas.remove(indiceDeMapa);
+            }
+        } catch (Exception e) {
+            System.out.println("actualizarCarrerasEnAlumnosActivar(param) => error al eliminar carrera " + e);
+        }
+        
+        return actualizado;
+    }
 }

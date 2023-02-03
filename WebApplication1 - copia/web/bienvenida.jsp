@@ -49,15 +49,15 @@
                 }
                 %>
                 <tr bordercolor="0">
-                    <td colspan="10" bgcolor="#FFCC33"><div align="center" class="Estilo1 Estilo8">TABLA DE ALUMNOS</div></td>
+                    <td colspan="9" bgcolor="#FFCC33"><div align="center" class="Estilo1 Estilo8">TABLA DE ALUMNOS</div></td>
                 </tr>
                 <tr bordercolor="0">
                     <td height="23" colspan="10" bgcolor="#FFCC33"><div align="right" class="Estilo8"><a href="registraralumno.jsp" title="REGISTRAR UN NUEVO ALUMNO" target="_self">REGISTRAR NUEVO ALUMNO</a></div></td>
                 </tr>
                 <tr bordercolor="0">
-                    <td colspan="5" bgcolor="#FFCC33"><span class="Estilo8"></span></td>
+                    <td colspan="4" bgcolor="#FFCC33"><span class="Estilo8"></span></td>
                     <td width="18%" bgcolor="#FFCC33"><div align="right" class="Estilo8">BUSCAR ALUMNO</div></td>
-                    <td colspan="3" bgcolor="#FFCC33"><input name="buscar" type="text" id="buscar" size="50">
+                    <td colspan="2" bgcolor="#FFCC33"><input name="buscar" type="text" id="buscar" size="50">
                     <input name="btnAlumnos" type="submit" id="btnBuscar" value="Buscar"></td>
                     <td width="0%" bgcolor="#FFCC33">&nbsp;</td>
                 </tr>
@@ -70,7 +70,6 @@
                     <td width="16%"  class="Estilo8">PASSWORD</td>
                     <td width="12%"  class="Estilo8">ELIMINAR</td> 
                     <td width="17%"  class="Estilo8">MODIFICAR</td> 
-                    <td width="17%"  class="Estilo8">ATRIBUTO USUARIO</td> 
                 </tr>                     
                 <% 
                 String[][] alumnos = null; //declaracion
@@ -103,17 +102,6 @@
                             <a href="modificaralumno.jsp?matricula=<%=alumno[5]%>&correo=<%=alumno[2]%>&fnacimiento=<%=alumno[6]%>&carrera=<%= alumno[7] %>&nombre=<%= alumno[3] %>&password=<%= alumno[4] %>" title="modificarAlumno" target="_self">
                                 <img src="./imagenes/modificar.png" alt="" width="90" height="60"/>              
                             </a>          
-                        </td>
-                        <td>
-                            <% if( alumno[4].equals("") ){ %>
-                                <a href="registrarusuario.jsp?correo=<%=alumno[2]%>" title="registrarUsuario" target="_self">
-                                    <img src="./imagenes/reintegrar.png" alt="" width="90" height="60"/> HACER USUARIO
-                                </a>   
-                            <% }else{ %>
-                                <a href="" onClick="confirm('Seguro que desea eliminar este usuario?') ? window.location.href='SrvProcesosUsuarios?btnUsuarios=eliminar&correo=<%= alumno[2] %>' : alert('Error al eliminar usuario')" title=eliminarUsuario" target="_self">
-                                    QUITAR USUARIO
-                                </a>
-                            <% } %>
                         </td>
 
                     </tr>

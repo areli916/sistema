@@ -5,14 +5,19 @@
         <group>
             <file>file:/C:/Users/Gluo/Documents/GitHub/sistema/WebApplication1%20-%20copia/web/Inactivos.jsp</file>
             <file>file:/C:/Users/Gluo/Documents/GitHub/sistema/WebApplication1%20-%20copia/web/bienvenida.jsp</file>
-            <file>file:/C:/Users/Gluo/Documents/GitHub/sistema/WebApplication1%20-%20copia/web/catalogocarreras.jsp</file>
             <file>file:/C:/Users/Gluo/Documents/GitHub/sistema/WebApplication1%20-%20copia/web/modificaralumno.jsp</file>
             <file>file:/C:/Users/Gluo/Documents/GitHub/sistema/WebApplication1%20-%20copia/web/navegacion.jsp</file>
             <file>file:/C:/Users/Gluo/Documents/GitHub/sistema/WebApplication1%20-%20copia/src/java/servlets/SrvProcesosAlumnos.java</file>
-            <file>file:/C:/Users/Gluo/Documents/GitHub/sistema/WebApplication1%20-%20copia/src/java/administradorDB/Carreras.java</file>
-            <file>file:/C:/Users/Gluo/Documents/GitHub/sistema/WebApplication1%20-%20copia/src/java/administradorDB/Usuarios.java</file>
+            <file>file:/C:/Users/Gluo/Documents/GitHub/sistema/WebApplication1%20-%20copia/web/registraralumno.jsp</file>
+            <file>file:/C:/Users/Gluo/Documents/GitHub/sistema/WebApplication1%20-%20copia/src/java/administradorDB/AdministradorBD.java</file>
             <file>file:/C:/Users/Gluo/Documents/GitHub/sistema/WebApplication1%20-%20copia/web/index.jsp</file>
             <file>file:/C:/Users/Gluo/Documents/GitHub/sistema/WebApplication1%20-%20copia/src/java/administradorDB/Alumnos.java</file>
+            <file>file:/C:/Users/Gluo/Documents/GitHub/sistema/WebApplication1%20-%20copia/web/carrerasinactivas.jsp</file>
+            <file>file:/C:/Users/Gluo/Documents/GitHub/sistema/WebApplication1%20-%20copia/src/java/servlets/SrvValidaRegistroAlumno.java</file>
+            <file>file:/C:/Users/Gluo/Documents/GitHub/sistema/WebApplication1%20-%20copia/src/java/servlets/SrvProcesosUsuarios.java</file>
+            <file>file:/C:/Users/Gluo/Documents/GitHub/sistema/WebApplication1%20-%20copia/src/java/servlets/SrvProcesosCarreras.java</file>
+            <file>file:/C:/Users/Gluo/Documents/GitHub/sistema/WebApplication1%20-%20copia/src/java/administradorDB/Carreras.java</file>
+            <file>file:/C:/Users/Gluo/Documents/GitHub/sistema/WebApplication1%20-%20copia/src/java/administradorDB/Usuarios.java</file>
         </group>
     </open-files>
 </project-private>

@@ -81,7 +81,7 @@
                         <td><div align="center" class="Estilo6"><%= alumno[7] %>&nbsp;</div></td>
                         <td><div align="center" class="Estilo6"><%= alumno[3] %>&nbsp;</div></td>
                         <td><div align="center" class="Estilo6"><%= alumno[4] %>&nbsp;</div></td>
-                        <td><a href="SrvProcesosAlumnos?btnAlumnos=reintegrar&matricula=<%= alumno[5] %>" title="reintegrarAlumno" target="_self"><img src="./imagenes/reintegrar.png" alt="" width="90" height="60"/></a></td>
+                        <td><a href="SrvProcesosAlumnos?btnAlumnos=reintegrar&matricula=<%= alumno[5] %>&correo=<%=alumno[2]%>" title="reintegrarAlumno" target="_self"><img src="./imagenes/reintegrar.png" alt="" width="90" height="60"/></a></td>
 
                     </tr>
                 <%  

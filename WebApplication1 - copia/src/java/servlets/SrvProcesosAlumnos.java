@@ -47,13 +47,13 @@ public class SrvProcesosAlumnos extends HttpServlet {
                 } else{
                     response.sendRedirect("Inactivos.jsp?busquedadeinactivosexitosa="+buscar); } 
             } else if (btnAlumnos.equals("eliminar")) {
-                if ( misAlumnos.eliminarAlumno(matricula) ){
+                if ( misAlumnos.eliminarAlumno(matricula) && misUsuarios.eliminarUsuario(correo) ){
                     response.sendRedirect("bienvenida.jsp?mensaje=Se elimino correctamente"); 
                 } else {
                     response.sendRedirect("bienvenida.jsp?error=Error de comunicacion con la base de datos");  }
             } else if (btnAlumnos.equals("reintegrar")){
                 
-                if(misAlumnos.reintegrarAlumno(matricula)){
+                if(misAlumnos.reintegrarAlumno(matricula) && misUsuarios.reintegrarUsuario(correo)){
                     response.sendRedirect("Inactivos.jsp?mensaje=Se reintegro correctamente"); 
                 } else { 
                     response.sendRedirect("Inactivos.jsp?error=Error de comunicacion con la base de datos"); 

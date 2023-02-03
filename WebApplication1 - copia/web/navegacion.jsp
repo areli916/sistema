@@ -43,14 +43,24 @@
     </style>
    
     <body>
-        <navbar>
-            <ul id="navAlumnos">
-                <li><a href="bienvenida.jsp" target="navegacion">Administrar alumnos</a></li>
-                <!--li><a href="catalogousuarios.jsp" target="navegacion">Administrar usuarios</a></li-->
-                <li><a href="catalogocarreras.jsp" target="navegacion">Administrar carreras</a></li>
-                <li><a href="index.jsp" target="_parent">CERRAR SESIÓN</a></li>
-            </ul>
-        </navbar>
-        <iframe name="navegacion" id="navegacion" src="bienvenida.jsp" style="height:900px;width:100%"/>
+        <%
+        String usuario=request.getParameter("usuario");
+        if(usuario!=null){
+        %>
+            <navbar>
+                <ul id="navAlumnos">
+                    <li><a href="bienvenida.jsp" target="navegacion">Administrar alumnos</a></li>
+                    <!--li><a href="catalogousuarios.jsp" target="navegacion">Administrar usuarios</a></li-->
+                    <li><a href="catalogocarreras.jsp" target="navegacion">Administrar carreras</a></li>
+                    <li><a href="index.jsp" target="_parent">CERRAR SESIÓN</a></li>
+                </ul>
+            </navbar>
+            <iframe name="navegacion" id="navegacion" src="bienvenida.jsp" style="height:900px;width:100%"/>
+        <%
+        }
+        else{
+            %> Debes iniciar sesión <%
+        }
+        %>
     </body>
 </html>

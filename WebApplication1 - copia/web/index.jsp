@@ -17,7 +17,7 @@
                 <tr>
                     <td width="2%" rowspan="3" bgcolor="#FFCC66">&nbsp;</td>
                     <td width="48%" align="right" bgcolor="#FFCC66"><p>USUARIO</p>        </td>
-                    <td width="48%" bgcolor="#FFCC66"><input name="usuario" type="text" id="usuario" value="escribe tu correo electrónico" size="50" maxlength="256"></td>
+                    <td width="48%" bgcolor="#FFCC66"><input name="usuario" type="text" id="usuario" placeholder="escribe tu correo electrónico" size="50" maxlength="256"></td>
                     <td width="2%" rowspan="3" bgcolor="#FFCC66">&nbsp;</td>
                 </tr>
                 <tr>
